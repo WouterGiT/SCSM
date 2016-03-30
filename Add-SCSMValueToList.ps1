@@ -52,12 +52,12 @@
         [string]$AddToList,
         
         [Parameter(Mandatory=$true,
-            ValueFromPipeline=$true,
-            ValueFromPipelineByPropertyName=$true)]
+                   ValueFromPipeline=$true,
+                   ValueFromPipelineByPropertyName=$true)]
         [string]$DisplayName,
         
         [Parameter(Mandatory=$true)]
-        [string] $AddToManagementPack
+        [string]$AddToManagementPack
     )
     Begin {
         $ErrorActionPreference = 'Stop'
