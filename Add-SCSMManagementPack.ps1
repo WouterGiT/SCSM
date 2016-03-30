@@ -1,4 +1,4 @@
-Function Add-ManagementPack {
+Function Add-SCSMManagementPack {
     <#
     .SYNOPSIS
         Create a new management pack
@@ -9,11 +9,11 @@ Function Add-ManagementPack {
     .PARAMETER mpName
         The name of the new management pack.
 
-    .PARAMETER computerName
-        Specifies the SCSM server.
+    .PARAMETER ComputerName
+        Specifies the SCSM server, as default localhost is used.
  
     .EXAMPLE
-         Add-ManagementPack -computerName 'Server1' -mpName 'My new Management Pack'
+         Add-SCSMManagementPack -computerName 'Server1' -mpName 'My new Management Pack'
 
     .INPUTS
         String
@@ -34,10 +34,10 @@ Function Add-ManagementPack {
                    ValueFromPipeline=$true,
                    ValueFromPipelineByPropertyName=$true)]
         [string]$mpName,
-        [Parameter(Mandatory=$true,
-                   ValueFromPipeline=$true,
+
+        [Parameter(ValueFromPipeline=$true,
                    ValueFromPipelineByPropertyName=$true)]
-        [string]$computerName
+        [string]$ComputerName = 'localhost'
     )
     Begin {
         $ErrorActionPreference = 'Stop'
@@ -50,6 +50,7 @@ Function Add-ManagementPack {
         }
     }
     Process {
+        $ErrorActionPreference = 'Stop'
         Try {
             Write-Output "[$(Get-Date -UFormat "%Y-%m-%d %H:%M:%S")] - [Action] Create $mpName Management Pack"
             if (!(Get-SCManagementPack -ComputerName $computerName | where {$_.DisplayName -eq $mpName} )) {
@@ -72,4 +73,4 @@ Function Add-ManagementPack {
     }
     End {
     }
-} #end Function Add-ManagementPack
+} #end Function Add-SCSMManagementPack
