@@ -19,7 +19,7 @@
     
     .PARAMETER AddToManagementPack
         Specifies the name of the management pack were to add value/entry.
-        It's advisable to add the entries to a separate management pack so they wont be overwritten on re-import Custom MP.
+        It's advisable to add the entries to a separate management pack so they won't be overwritten on re-import Custom MP.
         
     .EXAMPLE
          Add-SCSMValueToList -ComputerName MyComputer -AddToList Customer$ -DisplayName 'Test 123' -AddToManagementPack 'My List Management Pack'
