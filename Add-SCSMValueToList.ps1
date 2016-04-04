@@ -108,6 +108,10 @@
         }
     }
     End {
-        Remove-Variable SCSMEnumHash, ComputerName, Parent, DisplayName, Name, ManagementPack, Ordinal, enumId, AddToManagementPack
+        Try {
+            Remove-Variable SCSMEnumHash, ComputerName, Parent, DisplayName, Name, ManagementPack, Ordinal, enumId, AddToManagementPack
+        }
+        Catch {
+        }
     }
 } #end Function Add-SCSMValueToList
