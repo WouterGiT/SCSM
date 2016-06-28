@@ -1,4 +1,5 @@
-﻿Function Add-SCSMValueToList {
+﻿Function Add-SCSMValueToList
+{
     <#
     .SYNOPSIS
         Add a new value to a SCSM list
@@ -59,19 +60,26 @@
         [Parameter(Mandatory=$true)]
         [string]$AddToManagementPack
     )
-    Begin {
+    Begin
+    {
         $ErrorActionPreference = 'Stop'
-        Try {
+        Try
+        {
             Import-Module SMLets
         }
-        Catch {
+        Catch
+        {
             Write-Output "[$(Get-Date -UFormat "%Y-%m-%d %H:%M:%S")] - [Error] Module not loaded, SMLets Module is mandatory."
             Throw
         }
     }
-    Process {
+
+
+    Process
+    {
         $ErrorActionPreference = 'Stop'
-        Try {
+        Try
+        {
             #Create unique Enum ID for new entry
             $enumId          = ((((Get-SCSMEnumeration -ComputerName $ComputerName -Name $AddToList).id) -replace "-","") + (Get-Date).ToUniversalTime().Ticks)
             $Name            = "enum.$enumId"
@@ -90,28 +98,39 @@
                 ComputerName   = $ComputerName
             }
             Write-Output "[$(Get-Date -UFormat "%Y-%m-%d %H:%M:%S")] - [Action] Add $($SCSMEnumHash.DisplayName) to $AddToList list"
-            if (!(Get-SCSMEnumeration -ComputerName $ComputerName -Name $AddToList | Get-SCSMChildEnumeration -ComputerName $ComputerName | where { $_.DisplayName -eq $displayName })) {
-                Try {
+            if (!(Get-SCSMEnumeration -ComputerName $ComputerName -Name $AddToList | Get-SCSMChildEnumeration -ComputerName $ComputerName | where { $_.DisplayName -eq $displayName }))
+            {
+                Try
+                {
                     Add-SCSMEnumeration @SCSMEnumHash
                     Write-Output "[$(Get-Date -UFormat "%Y-%m-%d %H:%M:%S")] - [Status] Added to list"
                 }
-                Catch {
+                Catch
+                {
                     Write-Output "[$(Get-Date -UFormat "%Y-%m-%d %H:%M:%S")] - [ERROR] $($_.Exception.Message)"
                 }
-            } else {
+            }
+            else
+            {
                 Write-Output "[$(Get-Date -UFormat "%Y-%m-%d %H:%M:%S")] - [Status] No need to add already exists"
             }
         }
-        Catch {
+        Catch
+        {
             Write-Output "[$(Get-Date -UFormat "%Y-%m-%d %H:%M:%S")] - [Error] Not created!"
             Write-Output "[$(Get-Date -UFormat "%Y-%m-%d %H:%M:%S")] - [Error] $($_.Exception.Message)"
         }
     }
-    End {
-        Try {
+
+
+    End
+    {
+        Try
+        {
             Remove-Variable SCSMEnumHash, ComputerName, Parent, DisplayName, Name, ManagementPack, Ordinal, enumId, AddToManagementPack
         }
-        Catch {
+        Catch
+        {
         }
     }
 } #end Function Add-SCSMValueToList

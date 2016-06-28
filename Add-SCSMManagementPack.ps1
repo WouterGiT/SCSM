@@ -1,4 +1,5 @@
-Function Add-SCSMManagementPack {
+Function Add-SCSMManagementPack
+{
     <#
     .SYNOPSIS
         Create a new management pack
@@ -39,21 +40,29 @@ Function Add-SCSMManagementPack {
                    ValueFromPipelineByPropertyName=$true)]
         [string]$ComputerName = 'localhost'
     )
-    Begin {
+    Begin
+    {
         $ErrorActionPreference = 'Stop'
-        Try {
+        Try
+        {
             Import-Module SMLets
         }
-        Catch {
+        Catch
+        {
             Write-Output "[$(Get-Date -UFormat "%Y-%m-%d %H:%M:%S")] - [Error] Module not loaded, SMLets Module is mandatory."
             Throw
         }
     }
-    Process {
+
+
+    Process
+    {
         $ErrorActionPreference = 'Stop'
-        Try {
+        Try
+        {
             Write-Output "[$(Get-Date -UFormat "%Y-%m-%d %H:%M:%S")] - [Action] Create $mpName Management Pack"
-            if (!(Get-SCManagementPack -ComputerName $computerName | where {$_.DisplayName -eq $mpName} )) {
+            if (!(Get-SCManagementPack -ComputerName $computerName | where {$_.DisplayName -eq $mpName} ))
+            {
                 $newManagemenPackHash = @{
                     ComputerName       = $computerName
                     FriendlyName       = $mpName
@@ -62,15 +71,20 @@ Function Add-SCSMManagementPack {
                 }
                 New-SCManagementPack @newManagemenPackHash
                 Write-Output "[$(Get-Date -UFormat "%Y-%m-%d %H:%M:%S")] - [Status] Created"
-            } else {
+            }
+            else
+            {
                 Write-Output "[$(Get-Date -UFormat "%Y-%m-%d %H:%M:%S")] - [Status] No need to add already exists"
             }
         }
-        Catch {
+        Catch
+        {
             Write-Output "[$(Get-Date -UFormat "%Y-%m-%d %H:%M:%S")] - [Error] Not created!"
             Write-Output "[$(Get-Date -UFormat "%Y-%m-%d %H:%M:%S")] - [Error] $($_.Exception.Message)"
         }
     }
+
+
     End {
     }
 } #end Function Add-SCSMManagementPack
